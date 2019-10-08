@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Model.Interfaces;
+﻿using Model.Interfaces;
 
 namespace Models
 {
     public class Dimensions : IDimensions
     {
-
         public Dimensions()
         {
-            
         }
-        public Dimensions(decimal length,decimal width, decimal height)
+
+        public Dimensions(decimal length, decimal width, decimal height)
         {
             Length = length;
             Width = width;

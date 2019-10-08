@@ -18,9 +18,7 @@ namespace Queue
         public virtual void Add(T order)
         {
             if (!Orders.TryAdd(order))
-            {
-                throw new OrderingAddItemException(new object[] { order.Id, Orders.FirstOrDefault()?.OrderRuleType.ToString() });
-            }
+                throw new OrderingAddItemException(order.Id, Orders.FirstOrDefault()?.OrderRuleType.ToString());
 
             var orderAdded = new OrderAdded
             {
@@ -30,24 +28,33 @@ namespace Queue
                 Id = order.Id,
                 Items = order.Items,
                 LastTryDate = DateTime.UtcNow,
-                OrderOriginationDate = order.OrderDate,
+                OrderOriginationDate = order.OrderDate
             };
 
             OrderAdded(orderAdded);
-
         }
 
         public virtual void AddRange(IEnumerable<T> orders)
         {
-            foreach (T order in orders)
-            {
-                Add(order);
-            }
+            foreach (var order in orders) Add(order);
         }
 
         public virtual T GetNext()
         {
-            return default(T);
+            return default;
+        }
+
+        public virtual void Remove(T item)
+        {
+        }
+
+        public virtual void Move(T item)
+        {
+        }
+
+        public virtual bool CanAutoQueue(T item)
+        {
+            return false;
         }
 
         public virtual T DoWork<T>(T order) where T : IPendingOrder, new()
@@ -65,28 +72,9 @@ namespace Queue
             retVal.Items.AddRange(leftOvers);
             retVal.Items.AddRange(haveDependencies);
 
-            foreach (var item in retVal.Items)
-            {
-                item.FulFilled = false;
-            }
+            foreach (var item in retVal.Items) item.FulFilled = false;
 
             return retVal;
         }
-
-        public virtual void Remove(T item)
-        {
-
-        }
-
-        public virtual void Move(T item)
-        {
-
-        }
-
-        public virtual bool CanAutoQueue(T item)
-        {
-            return false;
-        }
-
     }
 }

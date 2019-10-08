@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Model.Interfaces
+﻿namespace Model.Interfaces
 {
     public interface IDimensions
     {
@@ -10,5 +6,4 @@ namespace Model.Interfaces
         decimal Width { get; }
         decimal Height { get; }
     }
-
 }

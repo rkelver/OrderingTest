@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Exceptions
 {
@@ -8,12 +6,10 @@ namespace Exceptions
     {
         public OrderingAddItemException(params object[] messageInserts) : base(messageInserts)
         {
-            
         }
 
-        public OrderingAddItemException(Exception ex, object[] messageInserts) : base(ex,messageInserts)
+        public OrderingAddItemException(Exception ex, object[] messageInserts) : base(ex, messageInserts)
         {
-
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using Common;
 using Models.Interfaces;
 using Queue;
@@ -20,16 +19,11 @@ namespace Queues
         public override void Add(T order)
         {
             if (CanAutoQueue(order))
-            {
                 base.Add(order);
-            }
             else
-            {
                 //TODO: THERE IS NO REQUIREMENT IF IT SHOULD BE THE AUTO QUEUE TO MOVE TO MANUAL OR THE CALLER
                 //SELF MANAGE QUEUE FOR NOW
                 ManualQueue.Add(order);
-
-            }
         }
 
         public override bool CanAutoQueue(T item)

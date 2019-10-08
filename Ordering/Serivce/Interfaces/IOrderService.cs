@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Common;
+﻿using Common;
 using Models;
-using Models.Interfaces;
 
 namespace Serivce.Interfaces
 {

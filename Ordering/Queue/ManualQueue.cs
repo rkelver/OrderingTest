@@ -2,8 +2,7 @@
 
 namespace Queue
 {
-
-    public class ManualQueue <T> : Queue.Queue<T> where T : IPendingOrder, new()
+    public class ManualQueue<T> : Queue<T> where T : IPendingOrder, new()
     {
     }
 }

@@ -20,5 +20,4 @@ namespace Models
         public DateTime OrderDate { get; set; }
         public int BoxCount { get; set; }
     }
-
 }

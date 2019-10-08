@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Concurrent;
 using Exceptions;
-using Models;
 using Models.Interfaces;
 using Queue.Interfaces;
 using Queues;
-
 
 namespace Queue
 {
@@ -23,13 +16,9 @@ namespace Queue
 
         public override T GetNext()
         {
-            if (!Orders.TryTake(out var order))
-            {
-                throw new OrderingGetNextItemException(new object[] { order.Id, order.OrderRuleType });
-            }
+            if (!Orders.TryTake(out var order)) throw new OrderingGetNextItemException(order.Id, order.OrderRuleType);
 
-            return base.DoWork<T>(order);
-            
+            return base.DoWork(order);
         }
 
         //LEFT TO SHOW RULES CAN BE ADDED TO AUTOQUEUE THAT ARE LIFO SPECIFIC // OTHERWISE PASS THROUGH
@@ -38,6 +27,4 @@ namespace Queue
             return base.CanAutoQueue(item);
         }
     }
-
-
 }
