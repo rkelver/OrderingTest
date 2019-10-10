@@ -72,7 +72,7 @@ namespace Queue
             retVal.Items.AddRange(leftOvers);
             retVal.Items.AddRange(haveDependencies);
 
-            foreach (var item in retVal.Items) item.FulFilled = false;
+            foreach (var item in order.Items.Where(o=> !retVal.Items.Contains(o))) item.FulFilled = true;
 
             return retVal;
         }

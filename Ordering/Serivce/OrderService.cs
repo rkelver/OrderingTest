@@ -19,24 +19,19 @@ namespace Serivce
     {
         //ALSO CAN BE SOLVED W a LEGIT QUEUE // dead letter
         private const int AllowedItemRetryCount = 3;
-        private readonly Container Container;
 
         public readonly ConcurrentDictionary<OrderRuleTypeEnum, IQueue<PendingOrder>> Factories;
-
-        private readonly decimal Height = 101.6m;
-
+        private IPackingService PackingService;
         //6x6x4 => mm
         private readonly decimal Length = 152.4m;
-        private IPackingService PackingService;
+        private readonly decimal Height = 101.6m;
         private readonly decimal Width = 152.4m;
 
-        public OrderService()
+        public OrderService(IPackingService packingService)
         {
             Factories = new ConcurrentDictionary<OrderRuleTypeEnum, IQueue<PendingOrder>>();
-            Container = new Container(int.MinValue, Length, Width, Height);
-
-            SetUpDI();
-
+            PackingService = packingService;
+         
             foreach (OrderRuleTypeEnum action in Enum.GetValues(typeof(OrderRuleTypeEnum)))
             {
                 var idString = Type.GetType($"Queue.{action}`1, Queue");
@@ -66,7 +61,7 @@ namespace Serivce
 
         private OrderAdded GetNext(OrderRuleTypeEnum rule)
         {
-            var queue = Factories[rule];
+            var queue = GetRuleBasedQueue(rule);
             var order = queue.GetNext();
 
             var orderAdded = new OrderAdded
@@ -85,7 +80,8 @@ namespace Serivce
 
         private void AutoQueue_OrderAdded(IOrderAdded orderAdded)
         {
-            Process(orderAdded.OrderRuleType);
+            orderAdded = Process(orderAdded.OrderRuleType);
+
             var leftOvers = orderAdded.Items?.Where(i => !i.FulFilled && i.Retries < AllowedItemRetryCount);
             if (leftOvers.Any())
             {
@@ -118,24 +114,14 @@ namespace Serivce
 
                 foreach (var item in items)
                     itemstoPack.Add(new Item(int.MinValue, item.Dimensions.Length, item.Dimensions.Width,
-                        item.Dimensions.Height, 1));
+                        item.Dimensions.Height, items.Count()));
 
-                var packResults = PackingService.Pack(new Container(), itemstoPack);
+                var packResults = PackingService.Pack(new Container(int.MinValue,Length,Width,Height), itemstoPack);
 
                 foreach (var result in packResults)
                     //WE SHOULD LOG UNIQUE IDS of items moved to next box 
                     Debug.WriteLine(result.AlgorithmPackingResults.First().IsCompletePack);
             }
-        }
-
-        private void SetUpDI()
-        {
-            var serviceProvider = new ServiceCollection()
-                .AddScoped<IDimensions, Dimensions>()
-                .AddTransient<IPackingService, PackingService>()
-                .BuildServiceProvider();
-            PackingService = serviceProvider
-                .GetService<IPackingService>();
         }
     }
 }

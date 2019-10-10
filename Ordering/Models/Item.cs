@@ -9,6 +9,7 @@ namespace Models
         public Item()
         {
             Dependencies = new List<Dependency>();
+            Dimensions = new Dimensions();
             FulFilled = true;
         }
 

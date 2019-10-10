@@ -33,6 +33,7 @@ namespace Ordering
         {
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<IOrderService, OrderService>()
+                .AddTransient<IPackingService, PackingService>()
                 .BuildServiceProvider();
             OrderService = serviceProvider
                 .GetService<IOrderService>();
@@ -51,7 +52,8 @@ namespace Ordering
                 {
                     new Item
                     {
-                        Id = Inventory.ItemIds[index]
+                        Id = Inventory.ItemIds[index],
+                        Dimensions = new Dimensions(10,10,10)
                     }
                 }
             });
