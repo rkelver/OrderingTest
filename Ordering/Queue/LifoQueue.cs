@@ -2,7 +2,6 @@
 using Exceptions;
 using Models.Interfaces;
 using Queue.Interfaces;
-using Queues;
 
 namespace Queue
 {

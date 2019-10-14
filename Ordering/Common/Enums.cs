@@ -2,7 +2,9 @@
 {
     public enum CountryTypeEnum
     {
-        NonUS = -1,
+        // ReSharper disable once UnusedMember.Global
+        NonUs = -1,
+        // ReSharper disable once InconsistentNaming
         US = 0
     }
 

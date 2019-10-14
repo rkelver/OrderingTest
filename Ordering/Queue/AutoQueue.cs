@@ -1,10 +1,9 @@
 ﻿using System.Collections.Concurrent;
 using Common;
 using Models.Interfaces;
-using Queue;
 using Queue.Interfaces;
 
-namespace Queues
+namespace Queue
 {
     //TODO: THIS WILL GO TO A HARDWARE BASED QUEUE
     public class AutoQueue<T> : Queue<T>, IAutoQueue<T> where T : IPendingOrder, new()

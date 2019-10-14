@@ -8,6 +8,6 @@ namespace CromulentBisgetti.ContainerPacking.Algorithms
         /// <summary>
         ///     The EB-AFIT packing algorithm type.
         /// </summary>
-        [DataMember] EB_AFIT = 1
+        [DataMember] EbAfit = 1
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Common;
+using Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 using Models;
 using Serivce;
@@ -66,14 +68,34 @@ namespace Ordering
                 if (orderItems != null && orderItems.Count > 1)
                     foreach (var item in orderItems.Where(i => i != orderItems.Last()))
                     {
-                        var dependent = new Dependency();
-                        dependent.Id = Guid.NewGuid();
-                        dependent.Dependencies = (item.Id, orderItems.Last().Id);
-                        Orders.Last().Items.Last().Dependencies = new List<Dependency> {dependent};
+                        var dependent = new Dependency
+                        {
+                            Id = Guid.NewGuid(),
+                            Dependencies = (item.Id, orderItems.Last().Id)
+                        };
+                        Orders.Last().Items.Last().Dependencies = new List<Dependency> { dependent };
                     }
             }
 
-            foreach (var order in Orders) OrderService.AddOrder(order);
+            //UNIT TEST NEEDED TO ENSURE PARALLEL ADDS DONT EFFECT LIFO
+            //USE PARALLEL NOT TASK BC THERE IS NOT DEPENDENCIES ON FINISH TIME
+            Parallel.ForEach(Orders, (order) =>
+            {
+                try
+                {
+                    OrderService.AddOrder(order);
+                }
+                catch (OrderingException oEx)
+                {
+                    Console.WriteLine(oEx.ErrorMessage);
+                }
+                catch (System.Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
+            });
+
         }
     }
 }

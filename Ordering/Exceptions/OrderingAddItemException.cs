@@ -1,6 +1,7 @@
 ﻿using System;
+using Exceptions;
 
-namespace Exceptions
+namespace Exception
 {
     public class OrderingAddItemException : OrderingException
     {
@@ -8,7 +9,7 @@ namespace Exceptions
         {
         }
 
-        public OrderingAddItemException(Exception ex, object[] messageInserts) : base(ex, messageInserts)
+        public OrderingAddItemException(System.Exception ex, object[] messageInserts) : base(ex, messageInserts)
         {
         }
     }

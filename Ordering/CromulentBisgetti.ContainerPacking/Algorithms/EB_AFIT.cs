@@ -27,7 +27,7 @@ namespace CromulentBisgetti.ContainerPacking.Algorithms
             Report(container);
 
             var result = new AlgorithmPackingResult();
-            result.AlgorithmID = (int) AlgorithmType.EB_AFIT;
+            result.AlgorithmID = (int) AlgorithmType.EbAfit;
             result.AlgorithmName = "EB-AFIT";
 
             for (var i = 1; i <= itemsToPackCount; i++)

@@ -11,7 +11,7 @@ namespace CromulentBisgetti.ContainerPacking
     /// <summary>
     ///     The container packing service.
     /// </summary>
-    public static class PackingService
+    public class PackingService
     {
         /// <summary>
         ///     Attempts to pack the specified containers with the specified items using the specified algorithms.
@@ -20,7 +20,7 @@ namespace CromulentBisgetti.ContainerPacking
         /// <param name="itemsToPack">The items to pack.</param>
         /// <param name="algorithmTypeIDs">The list of algorithm type IDs to use for packing.</param>
         /// <returns>A container packing result with lists of the packed and unpacked items.</returns>
-        public static List<ContainerPackingResult> Pack(List<Container> containers, List<Item> itemsToPack,
+        public List<ContainerPackingResult> Pack(List<Container> containers, List<Item> itemsToPack,
             List<int> algorithmTypeIDs)
         {
             var sync = new object();
@@ -84,11 +84,11 @@ namespace CromulentBisgetti.ContainerPacking
         /// <param name="algorithmTypeID">The algorithm type ID.</param>
         /// <returns>An instance of a packing algorithm implementing AlgorithmBase.</returns>
         /// <exception cref="System.Exception">Invalid algorithm type.</exception>
-        public static IPackingAlgorithm GetPackingAlgorithmFromTypeID(int algorithmTypeID)
+        public IPackingAlgorithm GetPackingAlgorithmFromTypeID(int algorithmTypeID)
         {
             switch (algorithmTypeID)
             {
-                case (int) AlgorithmType.EB_AFIT:
+                case (int) AlgorithmType.EbAfit:
                     return new EB_AFIT();
 
                 default:

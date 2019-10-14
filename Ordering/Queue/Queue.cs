@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using Exceptions;
+using Exception;
 using Models;
 using Models.Interfaces;
 using Queue.Interfaces;
@@ -57,7 +57,7 @@ namespace Queue
             return false;
         }
 
-        public virtual T DoWork<T>(T order) where T : IPendingOrder, new()
+        protected virtual T DoWork(T order)
         {
             var haveDependencies = order.Items.Where(i => i.Dependencies.All(d => !d.FulFilled));
             var leftOvers = Inventory.ItemsNotInInventory(order.Items.Select(i => i.Id));
@@ -67,11 +67,11 @@ namespace Queue
                 OriginalOrderId = order.Id,
                 Id = Guid.NewGuid()
             };
-
-            //SHOULD EXTEND ADDRANGE to mark fulfiled = false
+            
             retVal.Items.AddRange(leftOvers);
             retVal.Items.AddRange(haveDependencies);
 
+            //bool default is false, only set to when this lambda is true
             foreach (var item in order.Items.Where(o=> !retVal.Items.Contains(o))) item.FulFilled = true;
 
             return retVal;

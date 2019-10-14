@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering", "Ordering\Orderi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Models\Model.csproj", "{A18E0DEA-834B-4E76-89A1-CA369E594E1D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exception", "Exceptions\Exception.csproj", "{29877844-016D-4676-9E6A-B191F708351E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderException", "Exceptions\OrderException.csproj", "{29877844-016D-4676-9E6A-B191F708351E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{11C6C788-9571-48B3-85E7-1C43FA952EB3}"
 EndProject

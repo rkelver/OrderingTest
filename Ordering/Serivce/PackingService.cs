@@ -59,11 +59,11 @@ namespace Serivce
         {
             switch (algorithmTypeID)
             {
-                case (int) AlgorithmType.EB_AFIT:
+                case (int) AlgorithmType.EbAfit:
                     return new EB_AFIT();
 
                 default:
-                    throw new Exception("Invalid algorithm type.");
+                    throw new System.Exception("Invalid algorithm type.");
             }
         }
     }

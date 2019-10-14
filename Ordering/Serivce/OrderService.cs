@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Common;
-using Microsoft.Extensions.DependencyInjection;
-using Model.Interfaces;
 using Models;
 using Models.Interfaces;
 using Queue.Interfaces;
@@ -82,8 +80,8 @@ namespace Serivce
         {
             orderAdded = Process(orderAdded.OrderRuleType);
 
-            var leftOvers = orderAdded.Items?.Where(i => !i.FulFilled && i.Retries < AllowedItemRetryCount);
-            if (leftOvers.Any())
+            var leftOvers = orderAdded.Items?.Where(i => !i.FulFilled && i.Retries < AllowedItemRetryCount).ToList();
+            if (leftOvers != null && leftOvers.Any())
             {
                 //REQUEUE WITH NON FULFILLED ITEMS
                 var requeueOrder = new PendingOrder
@@ -106,17 +104,17 @@ namespace Serivce
 
             //write out logistics/boxes....there is no requirements on what to do based on volume available....
             //ASSUMPTION USING mm
-            var items = orderAdded.Items?.Where(i => i.FulFilled);
+            var items = orderAdded.Items?.Where(i => i.FulFilled).ToList();
 
             if (items != null && items.Any())
             {
-                var itemstoPack = new List<Item>();
+                var itemsToPack = new List<Item>();
 
                 foreach (var item in items)
-                    itemstoPack.Add(new Item(int.MinValue, item.Dimensions.Length, item.Dimensions.Width,
+                    itemsToPack.Add(new Item(int.MinValue, item.Dimensions.Length, item.Dimensions.Width,
                         item.Dimensions.Height, items.Count()));
 
-                var packResults = PackingService.Pack(new Container(int.MinValue,Length,Width,Height), itemstoPack);
+                var packResults = PackingService.Pack(new Container(int.MinValue,Length,Width,Height), itemsToPack);
 
                 foreach (var result in packResults)
                     //WE SHOULD LOG UNIQUE IDS of items moved to next box 

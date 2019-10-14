@@ -8,7 +8,7 @@ namespace Exceptions
         {
         }
 
-        public OrderingGetNextItemException(Exception ex, object[] messageInserts) : base(ex, messageInserts)
+        public OrderingGetNextItemException(System.Exception ex, object[] messageInserts) : base(ex, messageInserts)
         {
         }
     }

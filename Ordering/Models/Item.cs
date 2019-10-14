@@ -10,7 +10,6 @@ namespace Models
         {
             Dependencies = new List<Dependency>();
             Dimensions = new Dimensions();
-            FulFilled = true;
         }
 
         public Guid Id { get; set; }
